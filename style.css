@@ -101,7 +101,7 @@ main {
 
 .timerHidden,
 .flipsHidden {
-    /* display: none; */
+    display: none;
 }
 
 .timerVisible,

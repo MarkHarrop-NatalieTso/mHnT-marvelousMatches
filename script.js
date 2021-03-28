@@ -1,8 +1,31 @@
 const marvelApp = {};
+const NUMBER_CHARACTERS = 8;
 
 marvelApp.apiUrl = "http://gateway.marvel.com/v1/public/characters";
 marvelApp.apiKey = "a3134eefb2e9287cec66be10c3f7e87f";
 marvelApp.privKey = "2ba98ab85aadbb6df982e71ce51d61e40fd027bd";
+marvelApp.characterIdArray = [
+    1009368,
+    1009220,
+    1009351,
+    1009664,
+    1009417,
+    1009407,
+    1009189,
+    1009697,
+    1009610,
+    1009187,
+    1009577,
+    1009562,
+    1009282,
+    1009652,
+    1010743,
+    1009338,
+    1009718,
+    1009465,
+    1009504,
+    1009265
+]
 
 // MD5 stuff found on the internet
 var MD5 = function (string) {
@@ -185,40 +208,165 @@ var MD5 = function (string) {
 }
 marvelApp.ts = new Date().getTime();
 marvelApp.hash = MD5(marvelApp.ts + marvelApp.privKey + marvelApp.apiKey).toString();
-marvelApp.characterId = 1009407;
 
-const url = `http://gateway.marvel.com/v1/public/characters/${marvelApp.characterId}?ts=${marvelApp.ts}&apikey=${marvelApp.apiKey}&hash=${marvelApp.hash}`;
-
-marvelApp.getCharacters = () => {
-    fetch(url)
-    .then( (response) => {
-        return response.json();
-    })
-    .then( (jsonResponse) => {
-        // console.log(jsonResponse);
-        marvelApp.displayPhoto(jsonResponse);
+marvelApp.getCharacter = async (characterId) => {
+    const url = new URL(`${marvelApp.apiUrl}/${characterId}`);
+    url.search = new URLSearchParams({
+        ts: marvelApp.ts,
+        apikey: marvelApp.apiKey,
+        hash: marvelApp.hash
     });
+    const response = await fetch(url)
+    return response.json()
+    // fetch(url)
+    // .then( (response) => {
+    //     return response.json();
+    // })
+    // .then( jsonResponse => {
+    //     // console.log(jsonResponse);
+    //     marvelApp.displayPhoto(jsonResponse);
+    // })
 }
-    
-marvelApp.displayPhoto = (dataFromApi) => {
-    const imgPath = dataFromApi.data.results[0].thumbnail.path;
-    const imgExtension = dataFromApi.data.results[0].thumbnail.extension;
-    const imgFinal = imgPath + "." + imgExtension;
-    console.log(imgFinal);
+
+marvelApp.shuffle = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+        // [charArray[i], charArray[j]] = [charArray[j], charArray[i]];
+    }
+    // console.log(charArray);
+    // charArrayCopy = [];
+    // for (i = 0; i < charArray.length; i++) {
+    //     charArrayCopy.push(charArray[i]);
+    //   }
+    // console.log(charArrayCopy);
+    // for (let i = 0; i < 100; i++) {
+    //     let j = Math.floor(Math.random() * 16);
+    //     // let k = Math.floor(Math.random() * 16);
+    //     if (k == j) {
+    //         if (k == 15) {
+    //             j--;
+    //         } else {
+    //             j++;
+    //         }
+    //     };
+    //     // console.log(j,k);
+    //     let temp = charArray[k];
+    //     // console.log('temp', temp);
+    //     charArray[k] = charArray[j];
+    //     charArray[j] = temp;
+    //     // [charArray[k], charArray[j]] = [charArray[j], charArray[k]];
+    // }
+    // console.log('chaarry');
+    console.log(array);
+    return array;
+}
+
+// marvelApp.shuffle = async (array) => {
+//     let currentIndex = await array.length, temporaryValue, randomIndex;
+  
+//     // While there remain elements to shuffle...
+//     while (currentIndex !== 0) {
+  
+//       // Pick a remaining element...
+//       randomIndex = Math.floor(Math.random() * currentIndex);
+//       currentIndex -= 1;
+  
+//       // And swap it with the current element.
+//       temporaryValue = array[currentIndex];
+//       array[currentIndex] = array[randomIndex];
+//       array[randomIndex] = temporaryValue;
+//     }
+  
+//     console.log(array);
+//     return array;
+//   }
+
+// marvelApp.arrayArray = [];
+
+// marvelApp.displayPhoto = (dataFromApi) => {
+//     const id = dataFromApi.data.results[0].id;
+//     const name = dataFromApi.data.restults[0].name;
+//     const imgPath = dataFromApi.data.results[0].thumbnail.path;
+//     const imgExtension = dataFromApi.data.results[0].thumbnail.extension;
+//     const imgFinal = imgPath + "." + imgExtension;
+//     mar
+//     // console.log(imgFinal);
+//     marvelApp.arrayArray.push({
+//         id: id,
+//         name: name
+//     });
+//     marvelApp.arrayArray.push({
+//         id: id,
+//         imgUrl: imgFinal
+//     });
+// }
+
+
+marvelApp.getCharacterArray = quantity => {
+    let characterIds = [];
+    // for loop to select random ids of quantity given from character id array to be used on game board
+    for (let i = 0; i < quantity; i++) {
+        let characterId;
+
+        // loop to check for duplicate id in array
+        do {
+            characterId = marvelApp.characterIdArray[Math.floor(Math.random() * 20)];
+        } while (characterIds.includes(characterId));
+        characterIds.push(characterId);
+    }
+
+    let characterData = [];
+    // for each loop to get the data needed for ids chosen above
+    characterIds.forEach( async characterId => {
+        // marvelApp.getCharacter(characterId);
+        let character = await marvelApp.getCharacter(characterId);
+        characterData.push({
+            id: character.data.results[0].id,
+            name: character.data.results[0].name,
+            });
+        characterData.push({
+            id: character.data.results[0].id,
+            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension
+            
+        });
+    });
+    console.log('characdata');
+    console.log(characterData);
+    console.log(characterData.length);
+    // console.log(marvelApp.arrayArray);
+    marvelApp.makeCards(characterData);
+    // let shuffled = marvelApp.shuffle(characterData);
+    // console.log('shuffled');
+    // console.log(shuffled);
+    // console.log(characterData);
+
 }
 
 
 
 
+marvelApp.makeCards = data => {
+    // console.log(data);
+    // const body = document.querySelector("body");
 
+    data.forEach(character => {
+        console.log(character);
+        // const imgElement = document.createElement("img");
+        // const listElement = document.createElement("li");
+        // console.log(listElement);
+        // body.appendChild(listElement);
+    });
+    // console.log(body);
 
-
-
-
-
+}
 
 marvelApp.init = () => {
-    marvelApp.getCharacters();
+    marvelApp.getCharacterArray(NUMBER_CHARACTERS);
+    // let shuffled = marvelApp.shuffle(characterData);
+    // console.log(shuffled);
 }
 
 marvelApp.init();

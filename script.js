@@ -284,7 +284,7 @@ marvelApp.getCharacterArray = async quantity => {
 
 // 16 tiles with Marvel logo will appear 'face down' on the game board.
 marvelApp.makeCards = data => {
-    const gameboard = document.querySelector(".innergameboard");
+    const gameboard = document.querySelector(".innerGameboard");
 
     data.forEach(dataObject => {
         const cardPiece = document.createElement("img");

@@ -148,7 +148,11 @@ p {
 .characterCard:active {
     transform: scale(1.15);
     transition: transform .2s;
-  }
+}
+
+.characterCard.flip {
+    transform: rotateY(180deg);
+}
 
 .backCard,
 .faceCard {

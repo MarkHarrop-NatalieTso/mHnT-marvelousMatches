@@ -87,44 +87,32 @@ h1 {
 }
 
 main {
-
     background: silver;
     padding-bottom: 5.2rem;
-    height: 85%;
+    height: 80%;
     border: 3px solid white;
 }
 
 .gameboard {
     margin: 0 auto;
-   
 }
 
-.timerHidden,
-.flipsHidden {
-    display: none;
-}
-
-.timerVisible,
-.flipsVisible {
+#timer,
+#flips {
     display: flex;
+    justify-content: center;
     width: 40%;
     margin: 0 5%;
-    text-align: center;
     color: yellow;
-    font-size: 3rem;
-
-}
-
-.popUp {
-    display: flex;
-    flex-direction: column;
+    list-style: none;
+    font-size: 2rem;
 }
 
 p {
     width: 100%;
-    margin: 40px auto;
+    margin: 10px auto;
     color: black;
-    font-size: 3rem;
+    font-size: 1rem;
     text-align: center;
 }
 
@@ -137,6 +125,7 @@ p {
 .innerGameboard {
     display: flex;
     flex-wrap: wrap;
+    width: 60%;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
@@ -156,8 +145,8 @@ p {
 
 .backCard,
 .faceCard {
-   width: 200px;
-   height: 200px;
+   width: 125px;
+   height: 125px;
    border: 1px solid green;
 }
 
@@ -165,38 +154,19 @@ p {
     background-image: url();
 }
 
-.container {
-    height: 80px;
-    position: relative;
-}
-.center {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
-button {
-    background: black;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 50px;
-}
-
 footer {
     width: 100%;
+    position: fixed;
+    bottom: 0;
     justify-content: center;
     align-items: center;
     background: black;
-    height: 5rem;
+    height: 3rem;
 }
 
 footer li {
     list-style: none;
+    color: white;
 }
 
 footer li a {

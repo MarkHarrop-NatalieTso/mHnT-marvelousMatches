@@ -17,30 +17,32 @@
     <main class="wrapper">
         <section class="gameboard">
             <div class="flex">
-                <ul class="timer">
-                    
-                </ul>
-                <ul class="flips">
-                    <!-- Flips to get inserted when the Start Game button is clicked -->
-                </ul>
+                <p id="timer">Timer:<span id="seconds">0</span></p>
+                <p id="flips">Flips:<span id="count">0</span></p>
+                <p>Game Rules: To play this game you will need to match the name of the Marvel character with their image.</p>
             </div>
-            <div class="innerGameboard">
-                <div class="popUp">
-                    <p>Game Rules:</p>
-                    <p>To play this game you will need to match the name of the Marvel character with their image.</p>
-                    <p>To get started click "Let's Play"</p>
-                </div>
-            </div>
-            <div class="container">
-                <div class="center">
-                    <button id="letsPlay" class="letsPlay">Let's Play</button>
-                </div>
-                
+            <div class="innerGameboard" id="innerGameboard">
+                <div class="backCard">Marvel</div>
+                <div class="backCard">Marvel</div>
+                <div class="backCard">Marvel</div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
+                <div class="backCard"></div>
             </div>
         </section>
     </main>
     <footer class="flex">
-        <li><a href="https://junocollege.com">Created by Natalie Tso and Mark Harrop @ Juno College</a></li>
+        <li>Created by Natalie Tso and Mark Harrop @ <a href="https://junocollege.com">Juno College</a></li>
     </footer>
     
     <script src="./script.js"></script>

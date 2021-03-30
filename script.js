@@ -284,7 +284,7 @@ marvelApp.getCharacterArray = async quantity => {
 
 // 16 tiles with Marvel logo will appear 'face down' on the game board.
 marvelApp.makeCards = data => {
-    const gameboard = document.querySelector(".innerGameboard");
+    const gameboard = document.querySelector(".innergameboard");
 
     data.forEach(dataObject => {
         const cardPiece = document.createElement("img");
@@ -296,12 +296,7 @@ marvelApp.makeCards = data => {
         cardPiece.setAttribute("id", dataObject.id);
 
         gameboard.appendChild(cardPiece);
-        // const listElement = document.createElement("li");
-        // // console.log(listElement);
-        // body.appendChild(listElement);
     });
-    // console.log(body);
-
 }
 
 // Once user makes first selection, stopwatch will start counting using setInterval on click event.

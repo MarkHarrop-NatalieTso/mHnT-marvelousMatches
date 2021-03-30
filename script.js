@@ -206,7 +206,6 @@ var MD5 = function (string) {
     var temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
     return temp.toLowerCase();
 }
-
 marvelApp.ts = new Date().getTime();
 marvelApp.hash = MD5(marvelApp.ts + marvelApp.privKey + marvelApp.apiKey).toString();
 
@@ -239,7 +238,6 @@ marvelApp.shuffle = array => {
         array[k] = array[j];
         array[j] = temp;
     }
-    console.log(array);
     return array;
 }
 
@@ -278,121 +276,12 @@ marvelApp.getCharacterArray = async quantity => {
     };
 
     let shuffled = marvelApp.shuffle(characterData);
-    console.log('shuffled');
-    console.log(shuffled);
     marvelApp.makeCards(shuffled);
 }
-​
-// marvelApp.shuffle = async (array) => {
-//     let currentIndex = await array.length, temporaryValue, randomIndex;
-  
-//     // While there remain elements to shuffle...
-//     while (currentIndex !== 0) {
-  
-//       // Pick a remaining element...
-//       randomIndex = Math.floor(Math.random() * currentIndex);
-//       currentIndex -= 1;
-  
-//       // And swap it with the current element.
-//       temporaryValue = array[currentIndex];
-//       array[currentIndex] = array[randomIndex];
-//       array[randomIndex] = temporaryValue;
-//     }
-  
-//     console.log(array);
-//     return array;
-//   }
-​
-// marvelApp.arrayArray = [];
-​
-// marvelApp.displayPhoto = (dataFromApi) => {
-//     const id = dataFromApi.data.results[0].id;
-//     const name = dataFromApi.data.restults[0].name;
-//     const imgPath = dataFromApi.data.results[0].thumbnail.path;
-//     const imgExtension = dataFromApi.data.results[0].thumbnail.extension;
-//     const imgFinal = imgPath + "." + imgExtension;
-//     mar
-//     // console.log(imgFinal);
-//     marvelApp.arrayArray.push({
-//         id: id,
-//         name: name
-//     });
-//     marvelApp.arrayArray.push({
-//         id: id,
-//         imgUrl: imgFinal
-//     });
-// }
-​
-​
-marvelApp.getCharacterArray = quantity => {
-    let characterIds = [];
-    // for loop to select random ids of quantity given from character id array to be used on game board
-    for (let i = 0; i < quantity; i++) {
-        let characterId;
-​
-        // loop to check for duplicate id in array
-        do {
-            characterId = marvelApp.characterIdArray[Math.floor(Math.random() * 20)];
-        } while (characterIds.includes(characterId));
-        characterIds.push(characterId);
-    }
-​
-    let characterData = [];
-    // for each loop to get the data needed for ids chosen above
-    characterIds.forEach( async characterId => {
-        // marvelApp.getCharacter(characterId);
-        let character = await marvelApp.getCharacter(characterId);
-        characterData.push({
-            id: character.data.results[0].id,
-            name: character.data.results[0].name,
-            });
-        characterData.push({
-            id: character.data.results[0].id,
-            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension
-            
-        });
-    });
-    console.log('characdata');
-    console.log(characterData);
-    console.log(characterData.length);
-    // console.log(marvelApp.arrayArray);
-    marvelApp.makeCards(characterData);
-    // let shuffled = marvelApp.shuffle(characterData);
-    // console.log('shuffled');
-    // console.log(shuffled);
-    // console.log(characterData);
-​
-}
-​
-​
-​
-​
-marvelApp.makeCards = data => {
-    // console.log(data);
-    // const body = document.querySelector("body");
-​
-    data.forEach(character => {
-        console.log(character);
-        // const imgElement = document.createElement("img");
-        // const listElement = document.createElement("li");
-        // console.log(listElement);
-        // body.appendChild(listElement);
-    });
-    // console.log(body);
-​
-}
-​
-marvelApp.init = () => {
-    marvelApp.getCharacterArray(NUMBER_CHARACTERS);
-    // let shuffled = marvelApp.shuffle(characterData);
-    // console.log(shuffled);
-}
-​
-marvelApp.init();
 
 // 16 tiles with Marvel logo will appear 'face down' on the game board.
 marvelApp.makeCards = data => {
-    const gameboard = document.querySelector(".innerGameboard");
+    const gameboard = document.querySelector(".innergameboard");
 
     data.forEach(dataObject => {
         const cardPiece = document.createElement("img");
@@ -424,8 +313,6 @@ marvelApp.makeCards = data => {
 
 marvelApp.init = async () => {
     await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
-    // let shuffled = marvelApp.shuffle(characterData);
-    // console.log(shuffled);
 }
 
 marvelApp.init();

@@ -27,7 +27,7 @@ marvelApp.characterIdArray = [
     1009265
 ]
 
-// MD5 stuff found on the internet
+// MD5 stuff found on the internet courtesy of Chris Coyier
 var MD5 = function (string) {
     function RotateLeft(lValue, iShiftBits) {
         return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));

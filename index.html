@@ -5,10 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marvel-ous Matches</title>
-    <link rel="stylesheet" href="./style.cs\">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@1,700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
- 
+    <header class="wrapper">
+        <h1><span class="marvel">Marvel</span><span class="italic">-ous</span><span class="matches">   Matches</span></h1>
+    </header>
+    <main class="wrapper">
+        <section class="gameboard">
+            <div class="flex">
+                <p id="timer">Timer:<span id="seconds">0</span></p>
+                <p id="flips">Flips:<span id="count">0</span></p>
+                <p>Game Rules: To play this game you will need to match the name of the Marvel character with their image.</p>
+            </div>
+            <div class="innerGameboard" id="innerGameboard">
+                <!-- Dynamic content from JS will be inserted here -->
+            </div>
+        </section>
+    </main>
+    <footer class="flex">
+        <li>Created by Natalie Tso and Mark Harrop @ <a href="https://junocollege.com">Juno College</a></li>
+    </footer>
     
     <script src="./script.js"></script>
 </body>

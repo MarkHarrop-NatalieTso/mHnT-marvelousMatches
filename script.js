@@ -271,7 +271,6 @@ marvelApp.getCharacterArray = async quantity => {
             id: character.data.results[0].id,
             imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension,
             name: character.data.results[0].name
-            
         });
     };
 
@@ -281,26 +280,83 @@ marvelApp.getCharacterArray = async quantity => {
 
 // 16 tiles with Marvel logo will appear 'face down' on the game board.
 marvelApp.makeCards = data => {
-    const gameboard = document.querySelector(".innergameboard");
+    const gameboard = document.querySelector(".innerGameboard");
 
     data.forEach(dataObject => {
-        const cardPiece = document.createElement("img");
+        const cardDiv = document.createElement("div");
+        cardDiv.classList.add("characterCard");
 
-        cardPiece.classList.add("facecard");
+        const cardBack = document.createElement("img");
+        cardBack.classList.add("backCard");
+        cardBack.src = "./assets/Marvel-Logo-Square.jpeg";
+        cardBack.alt = "Marvel Logo"
+        
+        const cardPiece = document.createElement("img");
+        cardPiece.classList.add("faceCard");
         cardPiece.src = dataObject.imgUrl;
         cardPiece.alt = dataObject.name;
-
         cardPiece.setAttribute("id", dataObject.id);
 
-        gameboard.appendChild(cardPiece);
+        cardDiv.appendChild(cardBack);
+        cardDiv.appendChild(cardPiece);
+
+        gameboard.appendChild(cardDiv);
     });
 }
 
 // Once user makes first selection, stopwatch will start counting using setInterval on click event.
 
+
+// add event listeners to each card
+marvelApp.setUpEventListeners = () => {
+    document.querySelectorAll(".characterCard").forEach(query => {
+        query.addEventListener("click", function() {
+        console.log('click works');
+        console.log(this);
+        this.firstChild.classList.add("flip");
+        this.lastChild.classList.add("flip");
+        });
+    });
+    
+}
+
+// function to add classes to animate card flipping over when clicked
+function displayCard() {
+    console.log(this);
+    this.firstChild.classList.add("flip");
+    this.lastChild.classList.add("flip");
+}
+
 // Store user's two selections in two separate variables
 // If values of two selections match, keep tiles face up.
 // If values of two selections don't match, turn tiles back over.
+
+function flipCard() {
+    flippedCards = [];
+    flippedCards.push(this);
+
+    if (flippedCards.length === 2) {
+        moveCounter();
+        if (flippedCards[0].id === flippedCards[1].id) {
+            matchingCards();
+        } else {
+            notMatchingCards();
+        }
+    }
+}
+
+function matchingCards() {
+    flippedCards[0].classList.add("matched");
+    flippedCards[1].classList.add("matched");
+}
+
+// Move counter will count +1 for every 2 cards flipped
+const moveCounter = () => {
+    let moves = 0;
+    moves++;
+    const counter = document.getElementById("count");
+    counter.innerHTML = moves;
+}
 
 // When user has correctly matched all tiles, stopwatch will stop counting.
 
@@ -313,6 +369,7 @@ marvelApp.makeCards = data => {
 
 marvelApp.init = async () => {
     await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
+    marvelApp.setUpEventListeners();
 }
 
 marvelApp.init();

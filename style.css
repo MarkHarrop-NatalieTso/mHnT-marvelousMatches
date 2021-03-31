@@ -101,7 +101,7 @@ main {
 }
 
 #timer,
-#flips {
+#moves {
     display: flex;
     justify-content: center;
     width: 40%;
@@ -140,15 +140,14 @@ p {
     height: calc(25% - 10px);
     margin: 5px;
     position: relative;
-    transform: scale(1);
     transform-style: preserve-3d;
     transition: transform .5s;
 }
 
-.characterCard:active {
-    transform: scale(1.15);
+/* .characterCard:active {
+    transform: rotateY(180deg);
     transition: transform .2s;
-  }
+} */
 
 .backCard,
 .faceCard {
@@ -159,7 +158,53 @@ p {
 
 .faceCard {
     transform: rotateY(180deg);
-  }
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.faceCard.flip {
+    transform: rotateY(360deg);
+    transition: 0.5s;
+}
+
+.backCard.flip {
+    transform: rotateY(180deg);
+    transition: 0.5s;
+}
+
+/* .faceCards {
+    height: 200px;
+    width: 200px;
+} */
+
+/* .faceCards::before {
+    content: "Marvel";
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 200px;
+    width: 200px;
+    background-color: red;
+    z-index: 10;
+} */
+
+/* .showBack {
+    filter: contrast(10000%) brightness(0) saturate(100%) grayscale(100%);
+}
+
+.showBack:hover {
+    filter: contrast(100%) brightness(100%) saturate(100%) grayscale(0);
+} */
+/* 
+.characterCard:hover {
+    transform: rotateY(180deg);
+} */
+/* 
+.matched {
+    z-index: 1;
+} */
 
 footer {
     width: 100%;
@@ -171,12 +216,12 @@ footer {
     height: 3rem;
 }
 
-footer li {
+footer p {
     list-style: none;
     color: white;
 }
 
-footer li a {
+footer a {
     text-decoration: none;
     color: white;
     text-transform: uppercase;

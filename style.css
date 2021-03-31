@@ -144,10 +144,9 @@ p {
     transition: transform .5s;
 }
 
-/* .characterCard:active {
+.characterCard.flip {
     transform: rotateY(180deg);
-    transition: transform .2s;
-} */
+}
 
 .backCard,
 .faceCard {

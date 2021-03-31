@@ -377,4 +377,12 @@ marvelApp.init = async () => {
     marvelApp.setUpEventListeners();
 }
 
+// A button "Play Again?" will show
+// Listen to play again button click event. Popup will disappear. New data will be pulled. 
+
+
+marvelApp.init = async () => {
+    await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
+}
+
 marvelApp.init();

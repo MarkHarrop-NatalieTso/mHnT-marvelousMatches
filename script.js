@@ -298,64 +298,6 @@ marvelApp.makeCards = data => {
 
 // Once user makes first selection, stopwatch will start counting using setInterval on click event.
 
-marvelApp.flipCards = () => {
-    const cards = document.querySelectorAll('.characterCard');
-
-    let cardHasFlipped = false;
-    let gameboardLocked = false;
-    let firstCharacter, secondCharacter;
-
-    function flipCard() {
-        if (gameboardLocked) return;
-        if (this === firstCharacter) return;
-
-        this.classList.add('flip');
-
-        if (!cardHasFlipped) {
-            // Represents first click of a card
-            cardHasFlipped = true;
-            firstCharacter = this;
-
-            return;
-        }
-
-        secondCharacter = this;
-
-        verifyMatch();
-    }
-
-    function verifyMatch() {
-        let match = firstCharacter.dataset.number === secondCharacter.dataset.number;
-    
-        match ? disableCards() : unflipCards();
-    }
-    
-    function disableCards() {
-        firstCharacter.removeEventListener('click', flipCard);
-        console.log(`I've been clicked`);
-        firstCharacter.removeEventListener('click', flipCard);
-    }
-    
-    function unflipCards() {
-        gameboardLocked = true;
-    
-        selfTimeout(() => {
-            firstCharacter.classList.remove('flip');
-            secondCharacter.classList.remove('flip');
-    
-            gameBoardReset();
-        }, 1500);
-    }
-    
-    function gameBoardReset() {
-        [cardHasFlipped, gameboardLocked] = [false, false];
-        [firstCharacter, secondCharacter] = [null, null];
-    }
-    
-    cards.forEach(card => card.addEventListener('click', flipCard));
-    
-}
-
 // Store user's two selections in two separate variables
 // If values of two selections match, keep tiles face up.
 // If values of two selections don't match, turn tiles back over.
@@ -364,6 +306,14 @@ marvelApp.flipCards = () => {
 
 // Pop up will let user know their time and that they've completed the game.
 
+
+// A button "Play Again?" will show
+// Listen to play again button click event. Popup will disappear. New data will be pulled. 
+
+
+marvelApp.init = async () => {
+    await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
+}
 
 // A button "Play Again?" will show
 // Listen to play again button click event. Popup will disappear. New data will be pulled. 

@@ -1,8 +1,31 @@
 const marvelApp = {};
+const NUMBER_CHARACTERS = 8;
 
 marvelApp.apiUrl = "http://gateway.marvel.com/v1/public/characters";
 marvelApp.apiKey = "a3134eefb2e9287cec66be10c3f7e87f";
 marvelApp.privKey = "2ba98ab85aadbb6df982e71ce51d61e40fd027bd";
+marvelApp.characterIdArray = [
+    1009368,
+    1009220,
+    1009351,
+    1009664,
+    1009417,
+    1009407,
+    1009189,
+    1009697,
+    1009610,
+    1009187,
+    1009577,
+    1009562,
+    1009282,
+    1009652,
+    1010743,
+    1009338,
+    1009718,
+    1009465,
+    1009504,
+    1009265
+]
 
 // MD5 stuff found on the internet courtesy of Chris Coyier
 var MD5 = function (string) {
@@ -183,10 +206,10 @@ var MD5 = function (string) {
     var temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
     return temp.toLowerCase();
 }
-
 marvelApp.ts = new Date().getTime();
 marvelApp.hash = MD5(marvelApp.ts + marvelApp.privKey + marvelApp.apiKey).toString();
 
+// function to get data from API
 marvelApp.getCharacter = async (characterId) => {
     const url = new URL(`${marvelApp.apiUrl}/${characterId}`);
     url.search = new URLSearchParams({
@@ -196,158 +219,158 @@ marvelApp.getCharacter = async (characterId) => {
     });
     const response = await fetch(url)
     return response.json()
-    // fetch(url)
-    // .then( (response) => {
-    //     return response.json();
-    // })
-    // .then( jsonResponse => {
-    //     // console.log(jsonResponse);
-    //     marvelApp.displayPhoto(jsonResponse);
-    // })
 }
-​
+
+// function to shuffle array of info from API
 marvelApp.shuffle = array => {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        const temp = array[i];
-        array[i] = array[j];
+    // for loop swaps two objs in array at a time to *shuffle
+    for (let i = 0; i < array.length; i++) {
+        let j = Math.floor(Math.random() * array.length);
+        let k = Math.floor(Math.random() * array.length);
+        if (k == j) {
+            if (k == (array.length - 1)) {
+                j--;
+            } else {
+                j++;
+            }
+        };
+        let temp = array[k];
+        array[k] = array[j];
         array[j] = temp;
     }
-    // console.log(charArray);
-    // charArrayCopy = [];
-    // for (i = 0; i < charArray.length; i++) {
-    //     charArrayCopy.push(charArray[i]);
-    //   }
-    // console.log(charArrayCopy);
-    // for (let i = 0; i < 100; i++) {
-    //     let j = Math.floor(Math.random() * 16);
-    //     // let k = Math.floor(Math.random() * 16);
-    //     if (k == j) {
-    //         if (k == 15) {
-    //             j--;
-    //         } else {
-    //             j++;
-    //         }
-    //     };
-    //     // console.log(j,k);
-    //     let temp = charArray[k];
-    //     // console.log('temp', temp);
-    //     charArray[k] = charArray[j];
-    //     charArray[j] = temp;
-    //     // [charArray[k], charArray[j]] = [charArray[j], charArray[k]];
-    // }
-    // console.log('chaarry');
-    console.log(array);
     return array;
 }
-​
-// marvelApp.shuffle = async (array) => {
-//     let currentIndex = await array.length, temporaryValue, randomIndex;
-  
-//     // While there remain elements to shuffle...
-//     while (currentIndex !== 0) {
-  
-//       // Pick a remaining element...
-//       randomIndex = Math.floor(Math.random() * currentIndex);
-//       currentIndex -= 1;
-  
-//       // And swap it with the current element.
-//       temporaryValue = array[currentIndex];
-//       array[currentIndex] = array[randomIndex];
-//       array[randomIndex] = temporaryValue;
-//     }
-  
-//     console.log(array);
-//     return array;
-//   }
-​
-// marvelApp.arrayArray = [];
-​
-// marvelApp.displayPhoto = (dataFromApi) => {
-//     const id = dataFromApi.data.results[0].id;
-//     const name = dataFromApi.data.restults[0].name;
-//     const imgPath = dataFromApi.data.results[0].thumbnail.path;
-//     const imgExtension = dataFromApi.data.results[0].thumbnail.extension;
-//     const imgFinal = imgPath + "." + imgExtension;
-//     mar
-//     // console.log(imgFinal);
-//     marvelApp.arrayArray.push({
-//         id: id,
-//         name: name
-//     });
-//     marvelApp.arrayArray.push({
-//         id: id,
-//         imgUrl: imgFinal
-//     });
-// }
-​
-​
-marvelApp.getCharacterArray = quantity => {
+
+// function to get and store array of requested info from API
+marvelApp.getCharacterArray = async quantity => {
     let characterIds = [];
     // for loop to select random ids of quantity given from character id array to be used on game board
     for (let i = 0; i < quantity; i++) {
         let characterId;
-​
+
         // loop to check for duplicate id in array
         do {
             characterId = marvelApp.characterIdArray[Math.floor(Math.random() * 20)];
         } while (characterIds.includes(characterId));
         characterIds.push(characterId);
     }
-​
+
+    // Pull data from 8 random characters from Marvel API
+    // Store character name img and id in an array
     let characterData = [];
     // for each loop to get the data needed for ids chosen above
-    characterIds.forEach( async characterId => {
-        // marvelApp.getCharacter(characterId);
+    for (let i = 0; i < characterIds.length; i++) {
+        let characterId = characterIds[i];
         let character = await marvelApp.getCharacter(characterId);
         characterData.push({
             id: character.data.results[0].id,
-            name: character.data.results[0].name,
+            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension,
+            name: character.data.results[0].name
             });
         characterData.push({
             id: character.data.results[0].id,
-            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension
+            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension,
+            name: character.data.results[0].name
             
         });
-    });
-    console.log('characdata');
-    console.log(characterData);
-    console.log(characterData.length);
-    // console.log(marvelApp.arrayArray);
-    marvelApp.makeCards(characterData);
-    // let shuffled = marvelApp.shuffle(characterData);
-    // console.log('shuffled');
-    // console.log(shuffled);
-    // console.log(characterData);
-​
+    };
+
+    let shuffled = marvelApp.shuffle(characterData);
+    marvelApp.makeCards(shuffled);
 }
-​
-​
-​
-​
+
+// 16 tiles with Marvel logo will appear 'face down' on the game board.
 marvelApp.makeCards = data => {
-    // console.log(data);
-    // const body = document.querySelector("body");
-​
-    data.forEach(character => {
-        console.log(character);
-        // const imgElement = document.createElement("img");
-        // const listElement = document.createElement("li");
-        // console.log(listElement);
-        // body.appendChild(listElement);
+    const gameboard = document.querySelector(".innergameboard");
+
+    data.forEach(dataObject => {
+        const cardPiece = document.createElement("img");
+
+        cardPiece.classList.add("facecard");
+        cardPiece.src = dataObject.imgUrl;
+        cardPiece.alt = dataObject.name;
+
+        cardPiece.setAttribute("id", dataObject.id);
+
+        gameboard.appendChild(cardPiece);
     });
-    // console.log(body);
-​
 }
-​
-marvelApp.init = () => {
-    marvelApp.getCharacterArray(NUMBER_CHARACTERS);
-    // let shuffled = marvelApp.shuffle(characterData);
-    // console.log(shuffled);
+
+// Once user makes first selection, stopwatch will start counting using setInterval on click event.
+
+marvelApp.flipCards = () => {
+    const cards = document.querySelectorAll('.characterCard');
+
+    let cardHasFlipped = false;
+    let gameboardLocked = false;
+    let firstCharacter, secondCharacter;
+
+    function flipCard() {
+        if (gameboardLocked) return;
+        if (this === firstCharacter) return;
+
+        this.classList.add('flip');
+
+        if (!cardHasFlipped) {
+            // Represents first click of a card
+            cardHasFlipped = true;
+            firstCharacter = this;
+
+            return;
+        }
+
+        secondCharacter = this;
+
+        verifyMatch();
+    }
+
+    function verifyMatch() {
+        let match = firstCharacter.dataset.number === secondCharacter.dataset.number;
+    
+        match ? disableCards() : unflipCards();
+    }
+    
+    function disableCards() {
+        firstCharacter.removeEventListener('click', flipCard);
+        console.log(`I've been clicked`);
+        firstCharacter.removeEventListener('click', flipCard);
+    }
+    
+    function unflipCards() {
+        gameboardLocked = true;
+    
+        selfTimeout(() => {
+            firstCharacter.classList.remove('flip');
+            secondCharacter.classList.remove('flip');
+    
+            gameBoardReset();
+        }, 1500);
+    }
+    
+    function gameBoardReset() {
+        [cardHasFlipped, gameboardLocked] = [false, false];
+        [firstCharacter, secondCharacter] = [null, null];
+    }
+    
+    cards.forEach(card => card.addEventListener('click', flipCard));
+    
 }
-​
+
+// Store user's two selections in two separate variables
+// If values of two selections match, keep tiles face up.
+// If values of two selections don't match, turn tiles back over.
+
+// When user has correctly matched all tiles, stopwatch will stop counting.
+
+// Pop up will let user know their time and that they've completed the game.
+
+
+// A button "Play Again?" will show
+// Listen to play again button click event. Popup will disappear. New data will be pulled. 
+
+
+marvelApp.init = async () => {
+    await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
+}
+
 marvelApp.init();
-
-
-
-

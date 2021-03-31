@@ -312,20 +312,25 @@ marvelApp.setUpEventListeners = () => {
     document.querySelectorAll(".characterCard").forEach(query => {
         query.addEventListener("click", function() {
         console.log('click works');
-        console.log(this);
-        this.firstChild.classList.add("flip");
-        this.lastChild.classList.add("flip");
+
+        const displayCard = () => {
+            this.firstChild.classList.add("flip");
+            this.lastChild.classList.add("flip");
+
+        }
+        // console.log(this);
+        displayCard();
         });
     });
     
 }
 
 // function to add classes to animate card flipping over when clicked
-function displayCard() {
-    console.log(this);
-    this.firstChild.classList.add("flip");
-    this.lastChild.classList.add("flip");
-}
+// function displayCard() {
+//     console.log(this);
+//     this.firstChild.classList.add("flip");
+//     this.lastChild.classList.add("flip");
+// }
 
 // Store user's two selections in two separate variables
 // If values of two selections match, keep tiles face up.

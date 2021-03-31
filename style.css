@@ -101,7 +101,7 @@ main {
 }
 
 #timer,
-#flips {
+#moves {
     display: flex;
     justify-content: center;
     width: 40%;
@@ -140,14 +140,8 @@ p {
     height: calc(25% - 10px);
     margin: 5px;
     position: relative;
-    transform: scale(1);
     transform-style: preserve-3d;
     transition: transform .5s;
-}
-
-.characterCard:active {
-    transform: scale(1.15);
-    transition: transform .2s;
 }
 
 .characterCard.flip {
@@ -163,6 +157,19 @@ p {
 
 .faceCard {
     transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.faceCard.flip {
+    transform: rotateY(360deg);
+    transition: 0.5s;
+}
+
+.backCard.flip {
+    transform: rotateY(180deg);
+    transition: 0.5s;
 }
 
 footer {
@@ -175,12 +182,12 @@ footer {
     height: 3rem;
 }
 
-footer li {
+footer p {
     list-style: none;
     color: white;
 }
 
-footer li a {
+footer a {
     text-decoration: none;
     color: white;
     text-transform: uppercase;

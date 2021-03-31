@@ -173,39 +173,6 @@ p {
     transition: 0.5s;
 }
 
-/* .faceCards {
-    height: 200px;
-    width: 200px;
-} */
-
-/* .faceCards::before {
-    content: "Marvel";
-    color: white;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 200px;
-    width: 200px;
-    background-color: red;
-    z-index: 10;
-} */
-
-/* .showBack {
-    filter: contrast(10000%) brightness(0) saturate(100%) grayscale(100%);
-}
-
-.showBack:hover {
-    filter: contrast(100%) brightness(100%) saturate(100%) grayscale(0);
-} */
-/* 
-.characterCard:hover {
-    transform: rotateY(180deg);
-} */
-/* 
-.matched {
-    z-index: 1;
-} */
-
 footer {
     width: 100%;
     position: fixed;

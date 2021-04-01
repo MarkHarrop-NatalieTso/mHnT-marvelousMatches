@@ -304,38 +304,58 @@ marvelApp.makeCards = data => {
     });
 }
 
-// Once user makes first selection, stopwatch will start counting using setInterval on click event.
-function changeTimeToString(time) {
-    const diffInHours = time / 3600000;
-    const hours = Math.floor(diffInHours);
-    const diffInMinutes = (diffInHours - hours) * 60;
-    const minutes = Math.floor(diffInMinutes);
-    const diffInSeconds = (diffInMinutes - minutes) * 60;
-    const seconds = Math.floor(diffInSeconds);
-    const diffInMilliseconds = (diffInSeconds - seconds) * 100;
-    const milliseconds = Math.floor(diffInMilliseconds);
-    const formattedMinutes = minutes.toString().padStart(2, "0");
-    const formattedSeconds = seconds.toString().padStart(2, "0");
-    const formattedMilliseconds = milliseconds.toString().padStart(2, "0");
-    return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
+// Declare variables to use in our functions below
+let timePassed = 0;
+let timerInterval;
+
+let milliseconds = 0, seconds = 0; minutes = 0;
+let timer = document.querySelector("#stopwatch");
+
+let stoptime = true;
+function startTimer() {
+  if (stoptime == true) {
+        stoptime = false;
+        timerCycle();
+    }
+}
+function stopTimer() {
+  if (stoptime == false) {
+    stoptime = true;
   }
-  // Declare variables to use in our functions below
-  let beginTimer;
-  let timePassed = 0;
-  let timerInterval;
-  // Create function to modify innerHTML
-  function print(time) {
-    document.getElementById("stopwatch").innerHTML = time;
+}
+function timerCycle() {
+    if (stoptime == false) {
+    milliseconds = parseInt(milliseconds);
+    seconds = parseInt(seconds);
+    minutes = parseInt(minutes);
+    milliseconds = milliseconds + 1;
+    if (milliseconds == 100) {
+      seconds = seconds + 1;
+      milliseconds = 0;
+    }
+    if (seconds == 60) {
+      minutes = minutes + 1;
+      seconds = 0;
+    }
+
+    if (milliseconds < 10 || milliseconds == 0) {
+        milliseconds = '0' + milliseconds;
+    }
+
+    if (seconds < 10 || seconds == 0) {
+        seconds = '0' + seconds;
+    }
+
+    if (minutes < 10 || minutes == 0) {
+        minutes = '0' + minutes;
+    }
+
+    timer.innerHTML = minutes + ':' + seconds + ':' + milliseconds;
+    setTimeout("timerCycle()", 10);
   }
-  // Create "start", "pause" and "reset" functions
-  function start() {
-    beginTimer = Date.now() - timePassed;
-    timerInterval = setInterval(function printTime() {
-      timePassed = Date.now() - beginTimer;
-      print(changeTimeToString(timePassed));
-    }, 10);
-  }
-  
+}
+
+let matchedCards = document.getElementsByClassName('matched');
 
 // add event listeners to each card
 marvelApp.setUpEventListeners = () => {
@@ -361,11 +381,27 @@ marvelApp.setUpEventListeners = () => {
                 }
             }
         }
-        
-        // console.log(this);
+
+        function solved() {
+            if (matchedCards.length === 16) {
+                stopTimer();
+                timePassed = timer.innerHTML;
+
+                const gameboard = document.querySelector('.innerGameboard');
+                const popUp = document.createElement('div');
+                const finalMessageTime = document.createElement('h2');
+                const playAgain = document.createElement('button');
+                finalMessageTime.textContent = `You've completed the match game in ${timePassed} seconds with a total number of ${moves} moves.`
+                playAgain.textContent = "Play Again";
+                popUp.appendChild(finalMessageTime);
+                popUp.appendChild(playAgain);
+                gameboard.appendChild(popUp);
+            }
+        }
         displayCard();
-        start();
+        startTimer();
         flipCard();
+        solved();
         });
     });
     
@@ -401,8 +437,6 @@ function notMatchingCards() {
     },1000);
 }
 
-const matchedCards = [];
-
 // Move counter will count +1 for every 2 cards flipped
 let moves = 0;
 
@@ -414,8 +448,9 @@ const moveCounter = () => {
 
 // When user has correctly matched all tiles, stopwatch will stop counting.
 
-// Pop up will let user know their time and that they've completed the game.
 
+
+// Pop up will let user know their time and that they've completed the game.
 
 // A button "Play Again?" will show
 // Listen to play again button click event. Popup will disappear. New data will be pulled. 
@@ -425,15 +460,6 @@ marvelApp.init = async () => {
     await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
     marvelApp.setUpEventListeners();
     flippedCards = [];
-    let moves = 0;
-}
-
-// A button "Play Again?" will show
-// Listen to play again button click event. Popup will disappear. New data will be pulled. 
-
-
-marvelApp.init = async () => {
-    await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
 }
 
 marvelApp.init();

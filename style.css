@@ -144,10 +144,9 @@ p {
     transition: transform .5s;
 }
 
-/* .characterCard:active {
+.characterCard.flip {
     transform: rotateY(180deg);
-    transition: transform .2s;
-} */
+}
 
 .backCard,
 .faceCard {
@@ -156,8 +155,14 @@ p {
     backface-visibility: hidden;
 }
 
+.backCard {
+    transform: rotateY(0deg);
+    transition: 0.5s;
+}
+
 .faceCard {
     transform: rotateY(180deg);
+    transition: 0.5s;
     position: absolute;
     top: 0;
     left: 0;
@@ -171,6 +176,14 @@ p {
 .backCard.flip {
     transform: rotateY(180deg);
     transition: 0.5s;
+}
+
+.matched {
+    border: 3px solid green;
+}
+
+.notMatched {
+    border: 3px solid red;
 }
 
 footer {

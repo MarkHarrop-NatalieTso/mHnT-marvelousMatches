@@ -305,7 +305,37 @@ marvelApp.makeCards = data => {
 }
 
 // Once user makes first selection, stopwatch will start counting using setInterval on click event.
-
+function changeTimeToString(time) {
+    const diffInHours = time / 3600000;
+    const hours = Math.floor(diffInHours);
+    const diffInMinutes = (diffInHours - hours) * 60;
+    const minutes = Math.floor(diffInMinutes);
+    const diffInSeconds = (diffInMinutes - minutes) * 60;
+    const seconds = Math.floor(diffInSeconds);
+    const diffInMilliseconds = (diffInSeconds - seconds) * 100;
+    const milliseconds = Math.floor(diffInMilliseconds);
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+    const formattedSeconds = seconds.toString().padStart(2, "0");
+    const formattedMilliseconds = milliseconds.toString().padStart(2, "0");
+    return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
+  }
+  // Declare variables to use in our functions below
+  let beginTimer;
+  let timePassed = 0;
+  let timerInterval;
+  // Create function to modify innerHTML
+  function print(time) {
+    document.getElementById("stopwatch").innerHTML = time;
+  }
+  // Create "start", "pause" and "reset" functions
+  function start() {
+    beginTimer = Date.now() - timePassed;
+    timerInterval = setInterval(function printTime() {
+      timePassed = Date.now() - beginTimer;
+      print(changeTimeToString(timePassed));
+    }, 10);
+  }
+  
 
 // add event listeners to each card
 marvelApp.setUpEventListeners = () => {
@@ -316,48 +346,67 @@ marvelApp.setUpEventListeners = () => {
         const displayCard = () => {
             this.firstChild.classList.add("flip");
             this.lastChild.classList.add("flip");
-
         }
+
+        const flipCard = () => {
+
+            flippedCards.push(this);
+
+            if (flippedCards.length === 2) {
+                moveCounter();
+                if (flippedCards[0].lastChild.id === flippedCards[1].lastChild.id) {
+                    matchingCards();
+                } else {
+                    notMatchingCards();
+                }
+            }
+        }
+        
         // console.log(this);
         displayCard();
+        start();
+        flipCard();
         });
     });
     
 }
 
 // function to add classes to animate card flipping over when clicked
-// function displayCard() {
-//     console.log(this);
-//     this.firstChild.classList.add("flip");
-//     this.lastChild.classList.add("flip");
-// }
+
 
 // Store user's two selections in two separate variables
 // If values of two selections match, keep tiles face up.
 // If values of two selections don't match, turn tiles back over.
 
-function flipCard() {
-    flippedCards = [];
-    flippedCards.push(this);
-
-    if (flippedCards.length === 2) {
-        moveCounter();
-        if (flippedCards[0].id === flippedCards[1].id) {
-            matchingCards();
-        } else {
-            notMatchingCards();
-        }
-    }
-}
 
 function matchingCards() {
     flippedCards[0].classList.add("matched");
     flippedCards[1].classList.add("matched");
+    flippedCards = [];
 }
 
+function notMatchingCards() {
+    flippedCards[0].classList.add("notMatched");
+    flippedCards[1].classList.add("notMatched");
+
+    setTimeout(function(){
+    flippedCards[0].firstChild.classList.remove("flip");
+    flippedCards[0].lastChild.classList.remove("flip");
+    flippedCards[1].firstChild.classList.remove("flip");
+    flippedCards[1].lastChild.classList.remove("flip");
+    flippedCards[0].classList.remove("notMatched");
+    flippedCards[1].classList.remove("notMatched");
+
+    flippedCards = [];
+    },1000);
+}
+
+const matchedCards = [];
+
 // Move counter will count +1 for every 2 cards flipped
+let moves = 0;
+
 const moveCounter = () => {
-    let moves = 0;
     moves++;
     const counter = document.getElementById("count");
     counter.innerHTML = moves;
@@ -375,6 +424,8 @@ const moveCounter = () => {
 marvelApp.init = async () => {
     await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
     marvelApp.setUpEventListeners();
+    flippedCards = [];
+    let moves = 0;
 }
 
 marvelApp.init();

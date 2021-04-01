@@ -437,6 +437,8 @@ function notMatchingCards() {
     },1000);
 }
 
+// const matchedCards = [];
+
 // Move counter will count +1 for every 2 cards flipped
 let moves = 0;
 

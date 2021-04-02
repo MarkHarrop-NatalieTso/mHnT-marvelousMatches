@@ -362,16 +362,15 @@ marvelApp.setUpEventListeners = () => {
     document.querySelectorAll(".characterCard").forEach(query => {
         query.addEventListener("click", function() {
         console.log('click works');
-
+        
+        // function to add classes to animate card flipping over when clicked
         const displayCard = () => {
             this.firstChild.classList.add("flip");
             this.lastChild.classList.add("flip");
         }
 
         const flipCard = () => {
-
             flippedCards.push(this);
-
             if (flippedCards.length === 2) {
                 moveCounter();
                 if (flippedCards[0].lastChild.id === flippedCards[1].lastChild.id) {
@@ -381,46 +380,55 @@ marvelApp.setUpEventListeners = () => {
                 }
             }
         }
-
+        
         function solved() {
             if (matchedCards.length === 16) {
+                // When user has correctly matched all tiles, stopwatch will stop counting.
                 stopTimer();
+                // Save final time into a variable
                 timePassed = timer.innerHTML;
+                
+                // Pop up will let user know their time and that they've completed the game.
+                const gameboard = document.querySelector(".innerGameboard");
+                const popUp = document.createElement("div");
+                popUp.classList.add("popup")
 
-                const gameboard = document.querySelector('.innerGameboard');
-                const popUp = document.createElement('div');
-                const finalMessageTime = document.createElement('h2');
-                const playAgain = document.createElement('button');
-                finalMessageTime.textContent = `You've completed the match game in ${timePassed} seconds with a total number of ${moves} moves.`
-                playAgain.textContent = "Play Again";
-                popUp.appendChild(finalMessageTime);
+                const congratulations = document.createElement("h2")
+                const finalMessage = document.createElement("h3");
+                const playAgain = document.createElement("button");
+                
+                congratulations.textContent = "Congratulations!"
+                finalMessage.textContent = `You've completed the game in a time of ${timePassed} and with a total number of ${moves} moves.`
+                // A button "Play Again?" will show
+                playAgain.textContent = "Play Again?";
+
+                popUp.appendChild(congratulations);
+                popUp.appendChild(finalMessage);
                 popUp.appendChild(playAgain);
                 gameboard.appendChild(popUp);
+
+                
             }
         }
         displayCard();
         startTimer();
         flipCard();
         solved();
+        
         });
     });
     
 }
 
-// function to add classes to animate card flipping over when clicked
 
-
-// Store user's two selections in two separate variables
 // If values of two selections match, keep tiles face up.
-// If values of two selections don't match, turn tiles back over.
-
-
 function matchingCards() {
     flippedCards[0].classList.add("matched");
     flippedCards[1].classList.add("matched");
     flippedCards = [];
 }
 
+// If values of two selections don't match, turn tiles back over.
 function notMatchingCards() {
     flippedCards[0].classList.add("notMatched");
     flippedCards[1].classList.add("notMatched");
@@ -437,8 +445,6 @@ function notMatchingCards() {
     },1000);
 }
 
-// const matchedCards = [];
-
 // Move counter will count +1 for every 2 cards flipped
 let moves = 0;
 
@@ -448,20 +454,29 @@ const moveCounter = () => {
     counter.innerHTML = moves;
 }
 
-// When user has correctly matched all tiles, stopwatch will stop counting.
 
-
-
-// Pop up will let user know their time and that they've completed the game.
-
-// A button "Play Again?" will show
 // Listen to play again button click event. Popup will disappear. New data will be pulled. 
+
+marvelApp.playAgain = () => {
+    let resetButton = document.querySelector("button");
+    resetButton.addEventListener("click", function() {
+        let popUp = document.querySelector(".popup");
+        popUp.parentElement.removeChild(popUp);
+    });
+    let innerGameboard = document.querySelector(".innerGameboard");
+    innerGameboard.innerHTML = "";
+}
+
+
+
 
 
 marvelApp.init = async () => {
     await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
     marvelApp.setUpEventListeners();
     flippedCards = [];
+
+    
 }
 
 marvelApp.init();

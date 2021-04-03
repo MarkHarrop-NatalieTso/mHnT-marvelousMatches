@@ -481,10 +481,10 @@ marvelApp.playAgain = (resetButton) => {
     timer.innerHTML = "00:00:00";
     const counter = document.querySelector("#count");
     counter.innerHTML = "0";
-    milliseconds = 0;
-    seconds = 0;
-    minutes = 0;
-    moves = 0;
+    marvelApp.milliseconds = 0;
+    marvelApp.seconds = 0;
+    marvelApp.minutes = 0;
+    marvelApp.moves = 0;
 }
 
 // Create marvelApp init function

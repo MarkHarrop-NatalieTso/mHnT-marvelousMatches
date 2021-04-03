@@ -182,6 +182,7 @@ main {
 .faceCard.flip {
     transform: rotateY(360deg);
     transition: 0.5s;
+    z-index: 5;
 }
 
 .backCard.flip {

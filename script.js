@@ -247,7 +247,6 @@ marvelApp.getCharacterArray = async quantity => {
     // for loop to select random ids of quantity given from character id array to be used on game board
     for (let i = 0; i < quantity; i++) {
         let characterId;
-
         // loop to check for duplicate id in array
         do {
             characterId = marvelApp.characterIdArray[Math.floor(Math.random() * 20)];
@@ -273,7 +272,6 @@ marvelApp.getCharacterArray = async quantity => {
             name: character.data.results[0].name
         });
     };
-
     let shuffled = marvelApp.shuffle(characterData);
     marvelApp.makeCards(shuffled);
 }
@@ -306,10 +304,8 @@ marvelApp.makeCards = data => {
 
 // Declare variables to use in our functions below
 marvelApp.timePassed = 0;
-
 marvelApp.milliseconds = 0; marvelApp.seconds = 0; marvelApp.minutes = 0;
 marvelApp.timer = document.querySelector("#stopwatch");
-
 marvelApp.stoptime = true;
 
 marvelApp.startTimer = () => {
@@ -324,6 +320,7 @@ marvelApp.stopTimer = () => {
     marvelApp.stoptime = true;
   }
 }
+
 marvelApp.timerCycle = () => {
     if (marvelApp.stoptime === false) {
         marvelApp.milliseconds = parseInt(marvelApp.milliseconds);
@@ -338,15 +335,12 @@ marvelApp.timerCycle = () => {
         marvelApp.minutes = marvelApp.minutes + 1;
         marvelApp.seconds = 0;
     }
-
     if (marvelApp.milliseconds < 10 || marvelApp.milliseconds === 0) {
         marvelApp.milliseconds = '0' + marvelApp.milliseconds;
     }
-
     if (marvelApp.seconds < 10 || marvelApp.seconds === 0) {
         marvelApp.seconds = '0' + marvelApp.seconds;
     }
-
     if (marvelApp.minutes < 10 || marvelApp.minutes === 0) {
         marvelApp.minutes = '0' + marvelApp.minutes;
     }
@@ -362,7 +356,6 @@ marvelApp.matchedCards = document.getElementsByClassName('matched');
 marvelApp.setUpEventListeners = () => {
     document.querySelectorAll(".characterCard").forEach(query => {
         query.addEventListener("click", function() {
-        console.log('click works');
         
         // function to add classes to animate card flipping over when clicked
         const displayCard = () => {
@@ -403,29 +396,26 @@ marvelApp.setUpEventListeners = () => {
                 // A button "Play Again?" will show
                 playAgain.textContent = "Play Again?";
 
+                marvelApp.playAgain(playAgain);
+
                 popUp.appendChild(congratulations);
                 popUp.appendChild(finalMessage);
                 popUp.appendChild(playAgain);
                 gameboard.appendChild(popUp);
-
-                
             }
         }
         displayCard();
         marvelApp.startTimer();
         flipCard();
         solved();
-        
         });
     });
-    
 }
-
 
 // If values of two selections match, keep tiles face up.
 marvelApp.matchingCards = () => {
-    flippedCards[0].classList.add("matched");
-    flippedCards[1].classList.add("matched");
+    flippedCards[0].classList.add("matched", "disabled");
+    flippedCards[1].classList.add("matched", "disabled");
     flippedCards = [];
 }
 
@@ -433,6 +423,7 @@ marvelApp.matchingCards = () => {
 marvelApp.notMatchingCards = () => {
     flippedCards[0].classList.add("notMatched");
     flippedCards[1].classList.add("notMatched");
+    marvelApp.disable();
 
     setTimeout(function(){
     flippedCards[0].firstChild.classList.remove("flip");
@@ -443,11 +434,32 @@ marvelApp.notMatchingCards = () => {
     flippedCards[1].classList.remove("notMatched");
 
     flippedCards = [];
+
+    marvelApp.enable();
     },1000);
 }
 
-// Move counter will count +1 for every 2 cards flipped
+// Function to disable cards
+marvelApp.disable = () => {
+    let cards = document.querySelectorAll(".characterCard");
+    cards.forEach(card => {
+        card.classList.add("disabled");
+    })
+}
 
+// Function to enable cards again after disabling
+marvelApp.enable = () => {
+    let cards = document.querySelectorAll(".disabled");
+    cards.forEach(card => {
+        card.classList.remove("disabled");
+    })
+    let matched = document.querySelectorAll(".matched");
+    matched.forEach(match => {
+        card.classList.add("disabled");
+    })
+}
+
+// Move counter will count +1 for every 2 cards flipped
 marvelApp.moves = 0;
 
 marvelApp.moveCounter = () => {
@@ -456,29 +468,31 @@ marvelApp.moveCounter = () => {
     counter.innerHTML = marvelApp.moves;
 }
 
-
 // Listen to play again button click event. Popup will disappear. New data will be pulled. 
-
-marvelApp.playAgain = () => {
-    let resetButton = document.querySelector("button");
+marvelApp.playAgain = (resetButton) => {
     resetButton.addEventListener("click", function() {
-        let popUp = document.querySelector(".popup");
+        const popUp = document.querySelector(".popup");
         popUp.parentElement.removeChild(popUp);
+        marvelApp.init();
     });
-    let innerGameboard = document.querySelector(".innerGameboard");
+    const innerGameboard = document.querySelector(".innerGameboard");
     innerGameboard.innerHTML = "";
+    const timer = document.querySelector("#stopwatch");
+    timer.innerHTML = "00:00:00";
+    const counter = document.querySelector("#count");
+    counter.innerHTML = "0";
+    milliseconds = 0;
+    seconds = 0;
+    minutes = 0;
+    moves = 0;
 }
 
 // Create marvelApp init function
-
 marvelApp.init = async () => {
     await marvelApp.getCharacterArray(marvelApp.NUMBER_CHARACTERS);
     marvelApp.setUpEventListeners();
     flippedCards = [];
-
-    
 }
 
 // Call the marvelApp init functtion
-
 marvelApp.init();

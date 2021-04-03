@@ -105,11 +105,10 @@ main {
 
 .gameboard {
     margin: 0 auto;
-    height: calc(75vh - 3rem);
 }
 
-#timer,
-#moves {
+.timer,
+.moves {
     display: flex;
     justify-content: center;
     width: 40%;
@@ -138,7 +137,6 @@ main {
     height: calc(50vw + 20px);
     min-height: 275px;
     max-height: 550px;
-    background-color: #4169E1;
 }
 
 .characterCard {
@@ -194,6 +192,10 @@ main {
     border: 4px solid #ff0000;
 }
 
+.disabled {
+    pointer-events: none;
+}
+
 .popup {
     height: 200px;
     width: 350px;
@@ -243,6 +245,7 @@ footer p {
     list-style: none;
     color: #FFF;
     font-size: 1rem;
+    padding: 0 4vw;
 }
 
 footer a {
@@ -258,8 +261,8 @@ footer a {
         font-size: 3rem;
     }
 
-    #timer,
-    #moves {
+    .timer,
+    .moves {
         font-size: 1rem;
     }
 

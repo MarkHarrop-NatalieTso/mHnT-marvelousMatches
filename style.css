@@ -12,6 +12,15 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 
     Colours: 
 
+    #CED4D8;
+    #265A8B;
+    #FFF;
+    #FF0000;
+    #000;
+    #C0C0C0;
+    #4169E1
+    #008000;
+    #B81F24
 
 */
 
@@ -52,7 +61,7 @@ header {
     background-image: url(./assets/banner.jpg);
     background-size: cover;
     background-position: center;
-    border: 3px solid white;
+    border: 3px solid #FFF;
     height: 20vh;
     display: flex;
     justify-content: center;
@@ -60,16 +69,16 @@ header {
 }
 
 h1 {
-    color: white;
+    color: #FFF;
     font-size: 4rem;
     font-family: 'marvelregular';
     text-transform: uppercase;
-    text-shadow: black 0 0 10px;
+    text-shadow: 10px 0 0 #000;
 }
 
 .marvel {
     font-family: 'marvelregular', sans-serif;
-    background: red;
+    background: #ff0000;
     padding: 15px 20px 0;
     text-shadow: none;
 }
@@ -77,18 +86,21 @@ h1 {
 p {
     width: 100%;
     margin: 10px auto;
-    color: black;
+    color: #000;
     font-size: 1rem;
     text-align: center;
     font-family: "Bangers", sans-serif;
     letter-spacing: 1.5px;
 }
 
+/* Main Styling */
+
 main {
-    background: silver;
+    background: #C0C0C0;
     height: 80%;
-    border: 3px solid white;
+    border: 3px solid #FFF;
     padding-bottom: 1rem;
+    margin-bottom: 5rem;
 }
 
 .gameboard {
@@ -117,12 +129,16 @@ main {
     display: flex;
     flex-wrap: wrap;
     width: 50vw;
+    min-width: 275px;
+    max-width: 550px;
     justify-content: space-evenly;
     align-items: center;
     margin: 0 auto;
     position: relative;
     height: calc(50vw + 20px);
-    /* background-color: royalblue; */
+    min-height: 275px;
+    max-height: 550px;
+    background-color: #4169E1;
 }
 
 .characterCard {
@@ -170,28 +186,28 @@ main {
 }
 
 .matched {
-    border: 4px solid green;
+    border: 4px solid #008000;
     opacity: 0.5;
 }
 
 .notMatched {
-    border: 4px solid red;
+    border: 4px solid #ff0000;
 }
 
 .popup {
     height: 200px;
     width: 350px;
-    background-color: white;
+    background-color: #FFF;
     position: absolute;
     z-index: 10;
     text-align: center;
     font-family: "Bangers", sans-serif;
-    border: 3px solid black;
+    border: 3px solid #000;
 }
 
 .popup h2 {
     background-color: #B81F24;
-    color: white;
+    color: #FFF;
 }
 
 .popup h3 {
@@ -200,7 +216,7 @@ main {
 
 button {
     background-color: #B81F24;
-    color: white;
+    color: #FFF;
     border:2px solid #B81F24;
     padding: 10px;
     font-family: "Bangers", sans-serif;
@@ -208,27 +224,52 @@ button {
 }
 
 button:active {
-    background-color: white;
+    background-color: #FFF;
     color: #B81F24;
 }
+
+/* Footer Styling */
 
 footer {
     width: 100%;
     bottom: 0;
     justify-content: center;
     align-items: center;
-    background: black;
+    background: #000;
     height: 3rem;
+    position: fixed;
+    bottom: 0;
 }
 
 footer p {
     list-style: none;
-    color: white;
+    color: #FFF;
+    font-size: 1rem;
 }
 
 footer a {
     text-decoration: none;
-    color: white;
+    color: #FFF;
     text-transform: uppercase;
 }
 
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3rem;
+    }
+
+    #timer,
+    #moves {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 550px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    footer {
+        font-size: 1rem;
+    }
+}

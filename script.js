@@ -1,7 +1,7 @@
 const marvelApp = {};
 marvelApp.NUMBER_CHARACTERS = 8;
 
-marvelApp.apiUrl = "http://gateway.marvel.com/v1/public/characters";
+marvelApp.apiUrl = "https://gateway.marvel.com/v1/public/characters";
 marvelApp.apiKey = "a3134eefb2e9287cec66be10c3f7e87f";
 marvelApp.privKey = "2ba98ab85aadbb6df982e71ce51d61e40fd027bd";
 marvelApp.characterIdArray = [

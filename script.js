@@ -359,6 +359,7 @@ marvelApp.setUpEventListeners = () => {
         
         // function to add classes to animate card flipping over when clicked
         const displayCard = () => {
+            this.classList.add("disabled");
             this.firstChild.classList.add("flip");
             this.lastChild.classList.add("flip");
         }
@@ -414,8 +415,8 @@ marvelApp.setUpEventListeners = () => {
 
 // If values of two selections match, keep tiles face up.
 marvelApp.matchingCards = () => {
-    flippedCards[0].classList.add("matched", "disabled");
-    flippedCards[1].classList.add("matched", "disabled");
+    flippedCards[0].classList.add("matched");
+    flippedCards[1].classList.add("matched");
     flippedCards = [];
 }
 

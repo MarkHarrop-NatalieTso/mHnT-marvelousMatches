@@ -304,10 +304,8 @@ marvelApp.makeCards = data => {
 
 // Declare variables to use in our functions below
 marvelApp.timePassed = 0;
-
 marvelApp.milliseconds = 0; marvelApp.seconds = 0; marvelApp.minutes = 0;
 marvelApp.timer = document.querySelector("#stopwatch");
-
 marvelApp.stoptime = true;
 
 marvelApp.startTimer = () => {
@@ -322,6 +320,7 @@ marvelApp.stopTimer = () => {
     marvelApp.stoptime = true;
   }
 }
+
 marvelApp.timerCycle = () => {
     if (marvelApp.stoptime === false) {
         marvelApp.milliseconds = parseInt(marvelApp.milliseconds);
@@ -336,15 +335,12 @@ marvelApp.timerCycle = () => {
         marvelApp.minutes = marvelApp.minutes + 1;
         marvelApp.seconds = 0;
     }
-
     if (marvelApp.milliseconds < 10 || marvelApp.milliseconds === 0) {
         marvelApp.milliseconds = '0' + marvelApp.milliseconds;
     }
-
     if (marvelApp.seconds < 10 || marvelApp.seconds === 0) {
         marvelApp.seconds = '0' + marvelApp.seconds;
     }
-
     if (marvelApp.minutes < 10 || marvelApp.minutes === 0) {
         marvelApp.minutes = '0' + marvelApp.minutes;
     }
@@ -417,7 +413,7 @@ marvelApp.setUpEventListeners = () => {
 }
 
 // If values of two selections match, keep tiles face up.
-function matchingCards() {
+marvelApp.matchingCards = () => {
     flippedCards[0].classList.add("matched", "disabled");
     flippedCards[1].classList.add("matched", "disabled");
     flippedCards = [];
@@ -427,7 +423,7 @@ function matchingCards() {
 marvelApp.notMatchingCards = () => {
     flippedCards[0].classList.add("notMatched");
     flippedCards[1].classList.add("notMatched");
-
+    marvelApp.disable();
 
     setTimeout(function(){
     flippedCards[0].firstChild.classList.remove("flip");
@@ -438,11 +434,32 @@ marvelApp.notMatchingCards = () => {
     flippedCards[1].classList.remove("notMatched");
 
     flippedCards = [];
+
+    marvelApp.enable();
     },1000);
 }
 
-// Move counter will count +1 for every 2 cards flipped
+// Function to disable cards
+marvelApp.disable = () => {
+    let cards = document.querySelectorAll(".characterCard");
+    cards.forEach(card => {
+        card.classList.add("disabled");
+    })
+}
 
+// Function to enable cards again after disabling
+marvelApp.enable = () => {
+    let cards = document.querySelectorAll(".disabled");
+    cards.forEach(card => {
+        card.classList.remove("disabled");
+    })
+    let matched = document.querySelectorAll(".matched");
+    matched.forEach(match => {
+        card.classList.add("disabled");
+    })
+}
+
+// Move counter will count +1 for every 2 cards flipped
 marvelApp.moves = 0;
 
 marvelApp.moveCounter = () => {

@@ -455,7 +455,7 @@ marvelApp.enable = () => {
     })
     let matched = document.querySelectorAll(".matched");
     matched.forEach(match => {
-        card.classList.add("disabled");
+        match.classList.add("disabled");
     })
 }
 

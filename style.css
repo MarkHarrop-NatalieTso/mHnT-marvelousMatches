@@ -188,6 +188,7 @@ main {
 .backCard.flip {
     transform: rotateY(180deg);
     transition: 0.5s;
+    z-index: -1;
 }
 
 .matched {

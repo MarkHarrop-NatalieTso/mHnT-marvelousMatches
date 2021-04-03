@@ -73,7 +73,13 @@ h1 {
     font-size: 4rem;
     font-family: 'marvelregular';
     text-transform: uppercase;
-    text-shadow: 10px 0 0 #000;
+    text-shadow: 
+        1px 0 10px #000,
+        0 1px 10px #000,
+        -1px 0 10px #000,
+        0 -1px 10px #000
+    ;
+    
 }
 
 .marvel {

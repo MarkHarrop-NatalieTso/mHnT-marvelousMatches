@@ -1,5 +1,5 @@
 const marvelApp = {};
-const NUMBER_CHARACTERS = 8;
+marvelApp.NUMBER_CHARACTERS = 8;
 
 marvelApp.apiUrl = "http://gateway.marvel.com/v1/public/characters";
 marvelApp.apiKey = "a3134eefb2e9287cec66be10c3f7e87f";
@@ -305,57 +305,58 @@ marvelApp.makeCards = data => {
 }
 
 // Declare variables to use in our functions below
-let timePassed = 0;
-let timerInterval;
+marvelApp.timePassed = 0;
 
-let milliseconds = 0, seconds = 0; minutes = 0;
-let timer = document.querySelector("#stopwatch");
+marvelApp.milliseconds = 0; marvelApp.seconds = 0; marvelApp.minutes = 0;
+marvelApp.timer = document.querySelector("#stopwatch");
 
-let stoptime = true;
-function startTimer() {
-  if (stoptime == true) {
-        stoptime = false;
-        timerCycle();
+marvelApp.stoptime = true;
+
+marvelApp.startTimer = () => {
+  if (marvelApp.stoptime == true) {
+        marvelApp.stoptime = false;
+        marvelApp.timerCycle();
     }
 }
-function stopTimer() {
-  if (stoptime == false) {
-    stoptime = true;
+
+marvelApp.stopTimer = () => {
+  if (marvelApp.stoptime === false) {
+    marvelApp.stoptime = true;
   }
 }
-function timerCycle() {
-    if (stoptime == false) {
-    milliseconds = parseInt(milliseconds);
-    seconds = parseInt(seconds);
-    minutes = parseInt(minutes);
-    milliseconds = milliseconds + 1;
-    if (milliseconds == 100) {
-      seconds = seconds + 1;
-      milliseconds = 0;
+marvelApp.timerCycle = () => {
+    if (marvelApp.stoptime === false) {
+        marvelApp.milliseconds = parseInt(marvelApp.milliseconds);
+        marvelApp.seconds = parseInt(marvelApp.seconds);
+        marvelApp.minutes = parseInt(marvelApp.minutes);
+        marvelApp.milliseconds = marvelApp.milliseconds + 1;
+    if (marvelApp.milliseconds === 100) {
+        marvelApp.seconds = marvelApp.seconds + 1;
+        marvelApp.milliseconds = 0;
     }
-    if (seconds == 60) {
-      minutes = minutes + 1;
-      seconds = 0;
-    }
-
-    if (milliseconds < 10 || milliseconds == 0) {
-        milliseconds = '0' + milliseconds;
+    if (marvelApp.seconds === 60) {
+        marvelApp.minutes = marvelApp.minutes + 1;
+        marvelApp.seconds = 0;
     }
 
-    if (seconds < 10 || seconds == 0) {
-        seconds = '0' + seconds;
+    if (marvelApp.milliseconds < 10 || marvelApp.milliseconds === 0) {
+        marvelApp.milliseconds = '0' + marvelApp.milliseconds;
     }
 
-    if (minutes < 10 || minutes == 0) {
-        minutes = '0' + minutes;
+    if (marvelApp.seconds < 10 || marvelApp.seconds === 0) {
+        marvelApp.seconds = '0' + marvelApp.seconds;
     }
 
-    timer.innerHTML = minutes + ':' + seconds + ':' + milliseconds;
-    setTimeout("timerCycle()", 10);
+    if (marvelApp.minutes < 10 || marvelApp.minutes === 0) {
+        marvelApp.minutes = '0' + marvelApp.minutes;
+    }
+
+    marvelApp.timer.innerHTML = marvelApp.minutes + ':' + marvelApp.seconds + ':' + marvelApp.milliseconds;
+    setTimeout("marvelApp.timerCycle()", 10);
   }
 }
 
-let matchedCards = document.getElementsByClassName('matched');
+marvelApp.matchedCards = document.getElementsByClassName('matched');
 
 // add event listeners to each card
 marvelApp.setUpEventListeners = () => {
@@ -372,21 +373,21 @@ marvelApp.setUpEventListeners = () => {
         const flipCard = () => {
             flippedCards.push(this);
             if (flippedCards.length === 2) {
-                moveCounter();
+                marvelApp.moveCounter();
                 if (flippedCards[0].lastChild.id === flippedCards[1].lastChild.id) {
-                    matchingCards();
+                    marvelApp.matchingCards();
                 } else {
-                    notMatchingCards();
+                    marvelApp.notMatchingCards();
                 }
             }
         }
         
         function solved() {
-            if (matchedCards.length === 16) {
+            if (marvelApp.matchedCards.length === 16) {
                 // When user has correctly matched all tiles, stopwatch will stop counting.
-                stopTimer();
+                marvelApp.stopTimer();
                 // Save final time into a variable
-                timePassed = timer.innerHTML;
+                marvelApp.timePassed = marvelApp.timer.innerHTML;
                 
                 // Pop up will let user know their time and that they've completed the game.
                 const gameboard = document.querySelector(".innerGameboard");
@@ -398,7 +399,7 @@ marvelApp.setUpEventListeners = () => {
                 const playAgain = document.createElement("button");
                 
                 congratulations.textContent = "Congratulations!"
-                finalMessage.textContent = `You've completed the game in a time of ${timePassed} and with a total number of ${moves} moves.`
+                finalMessage.textContent = `You've completed the game in a time of ${marvelApp.timePassed} and with a total number of ${marvelApp.moves} moves.`
                 // A button "Play Again?" will show
                 playAgain.textContent = "Play Again?";
 
@@ -411,7 +412,7 @@ marvelApp.setUpEventListeners = () => {
             }
         }
         displayCard();
-        startTimer();
+        marvelApp.startTimer();
         flipCard();
         solved();
         
@@ -422,14 +423,14 @@ marvelApp.setUpEventListeners = () => {
 
 
 // If values of two selections match, keep tiles face up.
-function matchingCards() {
+marvelApp.matchingCards = () => {
     flippedCards[0].classList.add("matched");
     flippedCards[1].classList.add("matched");
     flippedCards = [];
 }
 
 // If values of two selections don't match, turn tiles back over.
-function notMatchingCards() {
+marvelApp.notMatchingCards = () => {
     flippedCards[0].classList.add("notMatched");
     flippedCards[1].classList.add("notMatched");
 
@@ -446,12 +447,13 @@ function notMatchingCards() {
 }
 
 // Move counter will count +1 for every 2 cards flipped
-let moves = 0;
 
-const moveCounter = () => {
-    moves++;
+marvelApp.moves = 0;
+
+marvelApp.moveCounter = () => {
+    marvelApp.moves++;
     const counter = document.getElementById("count");
-    counter.innerHTML = moves;
+    counter.innerHTML = marvelApp.moves;
 }
 
 
@@ -467,16 +469,16 @@ marvelApp.playAgain = () => {
     innerGameboard.innerHTML = "";
 }
 
-
-
-
+// Create marvelApp init function
 
 marvelApp.init = async () => {
-    await marvelApp.getCharacterArray(NUMBER_CHARACTERS);
+    await marvelApp.getCharacterArray(marvelApp.NUMBER_CHARACTERS);
     marvelApp.setUpEventListeners();
     flippedCards = [];
 
     
 }
+
+// Call the marvelApp init functtion
 
 marvelApp.init();

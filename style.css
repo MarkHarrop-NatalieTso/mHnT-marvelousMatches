@@ -105,7 +105,7 @@ main {
 
 .gameboard {
     margin: 0 auto;
-    height: 70%;
+    height: calc(75vh - 3rem);
 }
 
 #timer,
@@ -237,8 +237,6 @@ footer {
     align-items: center;
     background: #000;
     height: 3rem;
-    position: fixed;
-    bottom: 0;
 }
 
 footer p {
@@ -253,6 +251,8 @@ footer a {
     text-transform: uppercase;
 }
 
+/* Media queries styling */
+
 @media (max-width: 768px) {
     h1 {
         font-size: 3rem;
@@ -261,6 +261,11 @@ footer a {
     #timer,
     #moves {
         font-size: 1rem;
+    }
+
+    .innerGameboard {
+        width: 85vw;
+        height: calc(85vw + 20px);
     }
 }
 

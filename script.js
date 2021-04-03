@@ -263,12 +263,12 @@ marvelApp.getCharacterArray = async quantity => {
         let character = await marvelApp.getCharacter(characterId);
         characterData.push({
             id: character.data.results[0].id,
-            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension,
+            imgUrl: "https" + character.data.results[0].thumbnail.path.slice(4) + "." + character.data.results[0].thumbnail.extension,
             name: character.data.results[0].name
             });
         characterData.push({
             id: character.data.results[0].id,
-            imgUrl: character.data.results[0].thumbnail.path + "." + character.data.results[0].thumbnail.extension,
+            imgUrl: "https" + character.data.results[0].thumbnail.path.slice(4) + "." + character.data.results[0].thumbnail.extension,
             name: character.data.results[0].name
         });
     };
